@@ -1,25 +1,28 @@
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
+import java.util.Random;
 
 class Product {
-    private int productId;
-    private String productName;
-    private double price;
-    private LocalDate manufacturingDate;
-    private LocalDate expirationDate;
+    private final int productId;
+    private final String productName;
+    private final double price;
+    private final LocalDate manufacturingDate;
+    private final LocalDate expirationDate;
     private int quantity;
 
-    public Product(int productId, String productName, double price, String manufacturingDateStr, int quantity,
-                   int expirationDays) {
-        this.productId = productId;
+    public Product(String productName, double price, LocalDate manufacturingDate, int quantity, int expirationMonths) {
+        this.productId = generateRandomProductId();
         this.productName = productName;
         this.price = price;
-        //Converts string into LocalDate object for easy comparison of expirty and manufacturing date
-        this.manufacturingDate = LocalDate.parse(manufacturingDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.manufacturingDate = manufacturingDate;
         this.quantity = quantity;
-        //expiration months are converted to days before adding it to manufacturingDate
-        this.expirationDate = manufacturingDate.plusDays(expirationDays);
+        this.expirationDate = manufacturingDate.plusMonths(expirationMonths);
     }
+
+    private int generateRandomProductId() {
+        return new Random().nextInt(1000) + 1;
+    }
+
     //getters for the Product class
     public int getProductId() {
         return productId;
